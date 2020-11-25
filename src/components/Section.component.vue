@@ -14,11 +14,6 @@ export default defineComponent({
       default: true,
       required: false,
     },
-    classStyle: {
-      type: String,
-      default: "",
-      required: false,
-    },
   },
   // data() {},
   // computed: {},
@@ -29,7 +24,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <section class="{classStyle}">
+  <section>
     <header v-if="header">
       <slot name="header" />
     </header>
@@ -46,7 +41,6 @@ export default defineComponent({
 
 <style>
 section {
-  max-width: 1024px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,18 +53,11 @@ h1 {
   margin: 0;
 }
 
-section.centered {
-  text-align: center;
-}
-
-section.no-background {
-  background: none;
-}
-
 section header {
   justify-content: space-between;
   display: flex;
   align-items: center;
+  margin: 0 0 0.5rem;
 }
 
 section footer {
@@ -78,16 +65,9 @@ section footer {
   justify-content: flex-end;
 }
 
-.close {
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin: -2rem -0.5rem 0 0;
-}
-
-@media (max-width: 640px) {
+/* @media (min-width: 551px) {
   section {
-    margin: 0 auto 0.5rem;
+    border-radius: 15px;
   }
-}
+} */
 </style>

@@ -1,89 +1,74 @@
-<template>
-  <div class="App">
-    <header class="App-header">
-      <img src="/logo.svg" class="App-logo" alt="logo" />
-      <p>
-        Edit
-        <code>src/App.vue</code> and save to reload.
-      </p>
-      <p class="App-tsx">
-        <FooTsxVue />
-        <FooTsx />
-        <BarJsxVue />
-        <BarJsx />
-      </p>
-      <a class="App-link" href="https://vuejs.org" target="_blank" rel="noopener noreferrer">{{
-        state.message
-      }}</a>
-    </header>
-  </div>
-</template>
-
 <script lang="ts">
-import {defineComponent, reactive} from 'vue';
-import FooTsxVue from './components/FooTsx.vue';
-import FooTsx from './components/Foo';
-import BarJsxVue from './components/BarJsx.vue';
-import BarJsx from './components/Bar';
+import { defineComponent } from "vue";
+import "./App.css";
 
-interface State {
-  message: string;
-}
+// Modules
+import Header from "./components/Header.component.vue";
+import Section from "./components/Section.component.vue";
+import Carousel from "./components/Carousel.component.vue";
+
+// interface User {
+//   name: string;
+//   lastName: string;
+//   amount: number;
+// }
 
 export default defineComponent({
+  name: "App",
   components: {
-    FooTsxVue,
-    FooTsx,
-    BarJsxVue,
-    BarJsx,
+    Header,
+    Section,
+    Carousel,
   },
-  setup() {
-    const state = reactive({
-      message: 'Learn Vue',
-    });
+  props: {},
+  data() {
     return {
-      state,
+      title: "Holonet",
     };
   },
+  computed: {},
+  // watch: {},
+  // methods: {},
+  // mounted() {},
 });
 </script>
 
-<style>
-.App {
-  text-align: center;
-}
-.App-header {
-  background-color: #f9f6f6;
-  color: #32485f;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-}
-.App-link {
-  color: #00c185;
-}
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-  margin-bottom: 1rem;
-  animation: App-logo-spin infinite 1.6s ease-in-out alternate;
-}
-.App-tsx {
-  display: flex;
-}
-.App-tsx > div {
-  margin-left: 30px;
-  font-size: 16px;
-}
-@keyframes App-logo-spin {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.06);
-  }
-}
-</style>
+<template>
+  <Header :title="title" />
+
+  <Section>
+    <template v-slot:header>
+      <h1>SCIFI: Action</h1>
+    </template>
+    <Carousel />
+  </Section>
+
+  <Section>
+    <template v-slot:header>
+      <h1>SCIFI: Action</h1>
+    </template>
+  </Section>
+
+  <!-- <Section>
+    <template v-slot:header>
+      <h1>SCIFI: Drama</h1>
+    </template>
+    <Carousel />
+  </Section> -->
+
+  <!-- Basics -->
+  <!--<section>
+    {{ bananas }} Banana <button @click="countBananas">Button</button>
+    <p>Wij imkeren met {{ fullName }}</p>
+  </section>-->
+
+  <!-- For each -->
+  <!--<section v-for="battler in battlers" :key="battler.id">
+    <ul>
+      <li>{{ battler.name }}</li>
+    </ul>
+  </section>-->
+
+  <!-- Component -->
+  <!-- <UserProfile /> -->
+</template>

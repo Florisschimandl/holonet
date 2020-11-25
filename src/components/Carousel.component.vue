@@ -1,19 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-interface Items {
-  item: Array<Item>;
-}
-
-interface Item {
-  id: number;
-  url: string;
-  alt: string;
-}
-
 export default defineComponent({
   name: "Header",
-  el: "#holo-slider",
   //components: {},
   props: {
     title: {
@@ -21,78 +10,52 @@ export default defineComponent({
       default: "Title",
       required: false,
     },
-    activeItem: {
-      type: Number,
-      default: 0,
-      required: false,
+    uniqueId: {
+      type: String,
+      required: true,
+    },
+    shows: {
+      type: Array,
+      default: [],
+      required: true,
     },
   },
   data() {
     return {
-      currentItem: this.activeItem,
-      lastItem: this.activeItem,
-      nextItem: this.activeItem,
-      items: [
-        {
-          id: 0,
-          src:
-            "https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/kenan-sulayman-FV3M7igu8Fs-unsplash.jpg",
-          alt: "Yosemite",
-        },
-        {
-          id: 1,
-          src:
-            "https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/anastasia-dulgier-NCFTGtjY3EQ-unsplash.jpg",
-          alt: "Houses",
-        },
-        {
-          id: 2,
-          src:
-            "https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/arnaud-mariat-IPXcUYHeErc-unsplash.jpg",
-          alt: "Galaxies",
-        },
-      ],
+      currentItem: 0,
+      previousItem: -1,
+      nextItem: 1,
     };
   },
   // computed: {},
   // watch: {},
   methods: {
-    increaseNumber(number: number) {
-      this.currentItem++;
-      this.lastItem++;
-      this.nextItem++;
+    scrolLeft() {
+      const carousel = document.querySelector("#" + this.uniqueId);
+      carousel.scrollLeft += 300;
     },
-    decreaseNumber() {
-      if (this.currentItem > 0) {
-        this.currentItem--;
-        this.lastItem--;
-        this.nextItem--;
-      }
-      console.log("currentItem: ", this.currentItem);
+    scrolRight() {
+      const carousel = document.querySelector("#" + this.uniqueId);
+      carousel.scrollLeft -= 300;
     },
   },
-  // mounted() {},
+  //  mounted() { },
 });
 </script>
 
 <template>
   <div class="holo-slider">
-    <nav class="lil-nav">
-      <a v-bind:href="'#image-' + lastItem" v-on:click.prevent="decreaseNumber">
-        &lsaquo;
-      </a>
-      <a v-bind:href="'#image-' + nextItem" v-on:click.prevent="increaseNumber">
-        &rsaquo;
-      </a>
+    <nav>
+      <button v-on:click="scrolRight">&lsaquo;</button>
+      <button v-on:click="scrolLeft">&rsaquo;</button>
     </nav>
 
-    <div class="gallery">
-      <div class="card" v-for="(item, index) in items" :key="item.id">
+    <div v-bind:id="uniqueId" class="carousel">
+      <div class="card" v-for="(show, index) in shows" :key="index">
         <img
-          class="gallery__img"
-          v-bind:id="'image-' + index"
-          v-bind:src="item.src"
-          v-bind:alt="item.alt"
+          v-bind:id="'image-' + Object(shows[index]).id"
+          v-bind:src="Object(Object(shows[index]).image).medium"
+          v-bind:alt="Object(shows[index]).name"
         />
       </div>
     </div>
@@ -100,89 +63,98 @@ export default defineComponent({
 </template>
 
 <style scoped>
-img {
-  display: block;
-  max-width: 100%;
-}
-
 .holo-slider {
   position: relative;
-  background: #000;
 }
 
-.gallery {
+.carousel {
   overflow-x: scroll;
   overflow-y: hidden;
-  scroll-snap-type: both mandatory;
   scroll-behavior: smooth;
   display: flex;
+  scrollbar-width: thin;
+  scrollbar-color: #000 transparent;
+}
+
+/* firefox */
+.container {
+  scrollbar-width: thin;
+  scrollbar-color: grey transparent;
+}
+.container:-webkit-scrollbar {
+  width: 130px;
+}
+.container:-webkit-scrollbar-track {
+  background: transparent;
+}
+.container:-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 6px;
+  border: 3px solid transparent;
+  width: 100px;
+}
+
+.carousel::-webkit-scrollbar,
+.carousel::-webkit-scrollbar-thumb {
+  width: 100px;
+  height: 30px;
+  border-radius: 13px;
+  background-clip: padding-box;
+  border: 10px solid transparent;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 0 10px;
 }
 
 .card {
-  margin: 0;
+  margin: 0 0 0 0.5rem;
   padding: 0;
-  height: 10rem;
+  position: relative;
+  border: 1px solid grey;
 }
 
-.gallery__img {
-  scroll-snap-align: start;
-  min-width: 100vw;
-  -o-object-fit: cover;
-  object-fit: cover;
+.card h2 {
+  position: absolute;
+  bottom: 0;
+  padding: 0 2.5rem 0.5rem 2.5rem;
+  z-index: 0;
+  background: rgb(0, 0, 0, 0.8);
+  text-align: center;
+  font-size: 18px;
 }
 
-.lil-nav {
+img {
+  opacity: 0.5;
+  height: 100%;
+}
+img.selected {
+  opacity: 1;
+}
+img:hover,
+img:focus {
+  opacity: 1;
+}
+
+nav {
   position: absolute;
   justify-content: space-between;
   display: flex;
   width: 100%;
   height: 0;
+  z-index: 1;
+  top: 25%;
 }
 
-.lil-nav a {
+nav button {
   background: rgb(0, 0, 0, 0.8);
   width: 2rem;
   height: 10rem;
   font-size: 6rem;
   color: #fff;
-  vertical-align: middle;
-  text-align: center;
-  text-decoration: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0 -1rem 0 -1rem;
+  border: 0;
 }
-
-.lil-nav__img {
-  transition: 0.3s ease all;
-}
-
-/* @media screen and (min-width: 1200px) {
-  .wrapper {
-    grid-template-columns: 1fr 5fr;
-    grid-template-rows: auto;
-  }
-
-  .gallery {
-    display: block;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory;
-  }
-
-  .gallery__img {
-    min-width: auto;
-    min-height: 100vh;
-  }
-
-  .lil-nav {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    display: block;
-    grid-row-start: auto;
-  }
-
-  .lil-nav a {
-    margin-bottom: 10px;
-    min-height: 200px;
-    min-width: 100%;
-  }
-} */
 </style>

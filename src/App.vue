@@ -24,12 +24,48 @@ export default defineComponent({
   data() {
     return {
       title: "Holonet",
+      allScifi: [],
+      actionScifi: [],
+      dramaScifi: [],
+      comedyScifi: [],
     };
   },
-  computed: {},
-  // watch: {},
-  // methods: {},
-  // mounted() {},
+  methods: {
+    loadShows() {
+      fetch("https://api.tvmaze.com/shows?genre=Science-Fiction") //genre selection doesnt work
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((shows) => {
+          const allShows: Array<any> = [];
+
+          shows.forEach((show: object) => {
+            allShows.push(show);
+          });
+
+          this.allScifi = allShows.filter((show) =>
+            show.genres.includes("Science-Fiction")
+          );
+
+          this.actionScifi = this.allScifi.filter((show) =>
+            show.genres.includes("Action")
+          );
+
+          this.dramaScifi = this.allScifi.filter((show) =>
+            show.genres.includes("Drama")
+          );
+
+          this.comedyScifi = this.allScifi.filter((show) =>
+            show.genres.includes("Comedy")
+          );
+        });
+    },
+  },
+  mounted() {
+    this.loadShows();
+  },
 });
 </script>
 
@@ -38,15 +74,30 @@ export default defineComponent({
 
   <Section>
     <template v-slot:header>
-      <h1>SCIFI: Action</h1>
+      <h1>SCIFI: All</h1>
     </template>
-    <Carousel />
+    <Carousel :shows="allScifi" unique-id="carousel-all" />
   </Section>
 
   <Section>
     <template v-slot:header>
       <h1>SCIFI: Action</h1>
     </template>
+    <Carousel :shows="actionScifi" unique-id="carousel-action" />
+  </Section>
+
+  <Section>
+    <template v-slot:header>
+      <h1>SCIFI: Drama</h1>
+    </template>
+    <Carousel :shows="dramaScifi" unique-id="carousel-drama" />
+  </Section>
+
+  <Section>
+    <template v-slot:header>
+      <h1>SCIFI: Comedy</h1>
+    </template>
+    <Carousel :shows="comedyScifi" unique-id="carousel-comedy" />
   </Section>
 
   <!-- <Section>

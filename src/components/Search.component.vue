@@ -14,7 +14,7 @@ export default defineComponent({
 
 <template>
   <div id="search" class="searchbar">
-    <input type="text" placeholder="Search: Egg... for eggsample" />
+    <input type="text" placeholder="Search: Egg... for Eggsample" />
     <button>&#127859;</button>
   </div>
 </template>

@@ -6,6 +6,7 @@ import "./App.css";
 import Header from "./components/Header.component.vue";
 import Section from "./components/Section.component.vue";
 import Carousel from "./components/Carousel.component.vue";
+import Modal from "./components/Modal.component.vue";
 
 // interface User {
 //   name: string;
@@ -19,6 +20,7 @@ export default defineComponent({
     Header,
     Section,
     Carousel,
+    Modal,
   },
   props: {},
   data() {
@@ -29,6 +31,7 @@ export default defineComponent({
       actionScifi: [],
       dramaScifi: [],
       comedyScifi: [],
+      showModal: false,
     };
   },
   methods: {
@@ -74,6 +77,9 @@ export default defineComponent({
 
       return sortedShows;
     },
+    toggleModal() {
+      this.showModal = !this.showModal;
+    },
   },
   mounted() {
     this.loadShows();
@@ -112,26 +118,23 @@ export default defineComponent({
     <Carousel :shows="comedyScifi" unique-id="carousel-comedy" />
   </Section>
 
-  <!-- <Section>
-    <template v-slot:header>
-      <h1>SCIFI: Drama</h1>
-    </template>
-    <Carousel />
-  </Section> -->
+  <!-- <Modal :show-modal="showmodal">
+    <template v-slot:header> {{ selectedShow.title }} </template>
 
-  <!-- Basics -->
+    <img v-bind:src="selectedShow.image" v-bind:alt="selectedShow.alt" />
+    Show info
+    <ul>
+      <li>{{ selectedShow.rating }}</li>
+      <li>{{ selectedShow.description }}</li>
+    </ul>
+
+    <template v-slot:footer>
+      <button>Close</button>
+    </template>
+  </Modal> -->
+
   <!--<section>
     {{ bananas }} Banana <button @click="countBananas">Button</button>
     <p>Wij imkeren met {{ fullName }}</p>
   </section>-->
-
-  <!-- For each -->
-  <!--<section v-for="battler in battlers" :key="battler.id">
-    <ul>
-      <li>{{ battler.name }}</li>
-    </ul>
-  </section>-->
-
-  <!-- Component -->
-  <!-- <UserProfile /> -->
 </template>

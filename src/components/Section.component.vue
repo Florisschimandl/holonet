@@ -45,7 +45,12 @@ section {
   flex-direction: column;
   justify-content: center;
   margin: 0 auto 1rem;
-  background: #374644;
+  background: rgb(84, 126, 121);
+  background: linear-gradient(
+    107deg,
+    rgba(84, 126, 121, 1) 0%,
+    rgba(55, 70, 68, 1) 70%
+  );
   padding: 20px;
 }
 

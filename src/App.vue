@@ -25,6 +25,7 @@ export default defineComponent({
     return {
       title: "Holonet",
       allScifi: [],
+      sortedAllScifi: [],
       actionScifi: [],
       dramaScifi: [],
       comedyScifi: [],
@@ -39,28 +40,35 @@ export default defineComponent({
           }
         })
         .then((shows) => {
-          const allShows: Array<any> = [];
+          // Filter on Scifi shows only
+          this.allScifi = this.filterGenre(shows, "Science-Fiction");
 
-          shows.forEach((show: object) => {
-            allShows.push(show);
-          });
+          // Sort the shows by rating - highest > lowest
+          this.sortedAllScifi = this.sortByRating(this.allScifi);
 
-          this.allScifi = allShows.filter((show) =>
-            show.genres.includes("Science-Fiction")
-          );
-
-          this.actionScifi = this.allScifi.filter((show) =>
-            show.genres.includes("Action")
-          );
-
-          this.dramaScifi = this.allScifi.filter((show) =>
-            show.genres.includes("Drama")
-          );
-
-          this.comedyScifi = this.allScifi.filter((show) =>
-            show.genres.includes("Comedy")
-          );
+          // Filter on different genres
+          this.actionScifi = this.filterGenre(this.sortedAllScifi, "Action");
+          this.dramaScifi = this.filterGenre(this.sortedAllScifi, "Drama");
+          this.comedyScifi = this.filterGenre(this.sortedAllScifi, "Comedy");
         });
+    },
+    // Filter on genre
+    filterGenre(shows: Array<any>, genre: string) {
+      return shows.filter((show) => show.genres.includes(genre));
+    },
+    // Sort shows by rating
+    // type: ascending | descending
+    sortByRating(shows: Array<any>, type: string = "descending") {
+      const sortedShows = shows.sort((a, b) => {
+        if (type === "descending") {
+          return parseFloat(b.rating.average) - parseFloat(a.rating.average);
+        }
+        if (type === "ascending") {
+          return parseFloat(a.rating.average) - parseFloat(b.rating.average);
+        }
+      });
+
+      return sortedShows;
     },
   },
   mounted() {

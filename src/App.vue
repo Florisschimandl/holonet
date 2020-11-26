@@ -95,8 +95,6 @@ export default defineComponent({
     showSelectedShow(id: number) {
       const selectedShowData = this.allScifi.filter((show) => show.id === id);
 
-      console.log(selectedShowData);
-
       this.selectedShow = {
         image: selectedShowData[0].image.medium,
         name: selectedShowData[0].name,
@@ -157,16 +155,35 @@ export default defineComponent({
       {{ selectedShow.name }}
     </template>
 
-    <img v-bind:src="selectedShow.image" v-bind:alt="selectedShow.alt" />
+    <div class="show">
+      <img v-bind:src="selectedShow.image" v-bind:alt="selectedShow.alt" />
 
-    <h2>Details</h2>
-    <ul>
-      <li>Rating: {{ selectedShow.rating }}</li>
-      <li>Genres: {{ selectedShow.genres }}</li>
-      <li>Premiered: {{ selectedShow.premiered }}</li>
-      <li>Status: {{ selectedShow.status }}</li>
-    </ul>
-    <span v-html="selectedShow.summary"></span>
+      <div class="details">
+        <h3>Details</h3>
+        <ul>
+          <li>Rating: {{ selectedShow.rating }}</li>
+          <li>
+            Genres:
+            <span
+              class="card"
+              v-for="(genre, index) in selectedShow.genres"
+              :key="index"
+            >
+              {{ genre }}
+              <span v-if="index < Object.keys(selectedShow.genres).length - 1"
+                >,</span
+              >
+            </span>
+          </li>
+          <li>Premiered: {{ selectedShow.premiered }}</li>
+          <li>Status: {{ selectedShow.status }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="summary">
+      <h3>Description</h3>
+      <span v-html="selectedShow.summary" />
+    </div>
 
     <template v-slot:footer>
       <button v-on:click="toggleModal">Close</button>

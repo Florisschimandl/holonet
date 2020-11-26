@@ -100,6 +100,22 @@ export default defineComponent({
   margin: 0rem 1rem 0 0;
 }
 
+.show {
+  display: flex;
+}
+.show img {
+  max-width: max-content;
+}
+.show .details {
+  padding: 0 0 0 2rem;
+}
+
+@media (max-width: 500px) {
+  .show {
+    flex-direction: column;
+  }
+}
+
 @media (max-width: 767px) {
   .modal {
     top: 0;

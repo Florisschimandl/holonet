@@ -4,6 +4,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "Carousel",
   //components: {},
+  emits: ["showSelected"],
   props: {
     title: {
       type: String,
@@ -38,6 +39,9 @@ export default defineComponent({
       const carousel = document.querySelector("#" + this.uniqueId);
       carousel.scrollLeft -= 300;
     },
+    showDetails(id: number) {
+      this.$emit("showSelected", id);
+    },
   },
   //  mounted() { },
 });
@@ -60,7 +64,9 @@ export default defineComponent({
         <div class="overlay">
           <h3>{{ Object(shows[index]).name }}</h3>
           <p>Rating: {{ Object(Object(shows[index]).rating.average) }}</p>
-          <button>Details &#8594;</button>
+          <button v-on:click="showDetails(Object(shows[index]).id)">
+            Details &#8594;
+          </button>
         </div>
       </div>
     </div>
@@ -152,6 +158,10 @@ export default defineComponent({
   padding: 0 1.5rem 0.2rem;
   background: rgb(3, 53, 53);
   border: 1px solid rgb(38, 104, 104);
+}
+.card .overlay button:hover,
+.card .overlay button:focus {
+  background: rgb(5, 78, 78);
 }
 
 img {

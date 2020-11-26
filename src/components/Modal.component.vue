@@ -3,6 +3,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Modal",
+  emits: ["closeModal"],
   props: {
     closable: {
       type: Boolean,
@@ -11,21 +12,25 @@ export default defineComponent({
     },
     footer: {
       type: Boolean,
-      dafault: false,
+      default: true,
       required: false,
     },
   },
   // data() {},
   // computed: {},
   // watch: {},
-  // methods: {},
+  methods: {
+    closeModal() {
+      this.$emit("closeModal");
+    },
+  },
   // mounted() {},
 });
 </script>
 
 <template>
   <div class="modal-backdrop"></div>
-  <div class="modal {classStyle}">
+  <div class="modal">
     <header>
       <slot name="header" />
       <div v-if="closable" class="close" v-on:click="closeModal">X</div>

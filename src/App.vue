@@ -8,11 +8,16 @@ import Section from "./components/Section.component.vue";
 import Carousel from "./components/Carousel.component.vue";
 import Modal from "./components/Modal.component.vue";
 
-// interface User {
-//   name: string;
-//   lastName: string;
-//   amount: number;
-// }
+interface SelectedShow {
+  image: string;
+  name: string;
+  rating: string;
+  genres: string;
+  summary: string;
+  status: string;
+  premiered: string;
+  language: string;
+}
 
 export default defineComponent({
   name: "App",
@@ -31,6 +36,7 @@ export default defineComponent({
       actionScifi: [],
       dramaScifi: [],
       comedyScifi: [],
+      selectedShow: [],
       showModal: false,
     };
   },
@@ -79,6 +85,30 @@ export default defineComponent({
     },
     toggleModal() {
       this.showModal = !this.showModal;
+      if (this.showModal) {
+        //add class to prevent scrolling
+        document.body.classList.add("modal-open");
+      } else {
+        document.body.classList.remove("modal-open");
+      }
+    },
+    showSelectedShow(id: number) {
+      const selectedShowData = this.allScifi.filter((show) => show.id === id);
+
+      console.log(selectedShowData);
+
+      this.selectedShow = {
+        image: selectedShowData[0].image.medium,
+        name: selectedShowData[0].name,
+        rating: selectedShowData[0].rating.average,
+        genres: selectedShowData[0].genres,
+        summary: selectedShowData[0].summary,
+        status: selectedShowData[0].status,
+        premiered: selectedShowData[0].premiered,
+        language: selectedShowData[0].language,
+      };
+
+      this.toggleModal();
     },
   },
   mounted() {
@@ -94,7 +124,11 @@ export default defineComponent({
     <template v-slot:header>
       <h1>SCIFI: All ({{ allScifi.length }})</h1>
     </template>
-    <Carousel :shows="allScifi" unique-id="carousel-all" />
+    <Carousel
+      :shows="allScifi"
+      unique-id="carousel-all"
+      @show-selected="showSelectedShow($event)"
+    />
   </Section>
 
   <Section>
@@ -118,23 +152,24 @@ export default defineComponent({
     <Carousel :shows="comedyScifi" unique-id="carousel-comedy" />
   </Section>
 
-  <!-- <Modal :show-modal="showmodal">
-    <template v-slot:header> {{ selectedShow.title }} </template>
+  <Modal v-if="showModal" @close-modal="toggleModal">
+    <template v-slot:header>
+      {{ selectedShow.name }}
+    </template>
 
     <img v-bind:src="selectedShow.image" v-bind:alt="selectedShow.alt" />
-    Show info
+
+    <h2>Details</h2>
     <ul>
-      <li>{{ selectedShow.rating }}</li>
-      <li>{{ selectedShow.description }}</li>
+      <li>Rating: {{ selectedShow.rating }}</li>
+      <li>Genres: {{ selectedShow.genres }}</li>
+      <li>Premiered: {{ selectedShow.premiered }}</li>
+      <li>Status: {{ selectedShow.status }}</li>
     </ul>
+    <span v-html="selectedShow.summary"></span>
 
     <template v-slot:footer>
-      <button>Close</button>
+      <button v-on:click="toggleModal">Close</button>
     </template>
-  </Modal> -->
-
-  <!--<section>
-    {{ bananas }} Banana <button @click="countBananas">Button</button>
-    <p>Wij imkeren met {{ fullName }}</p>
-  </section>-->
+  </Modal>
 </template>

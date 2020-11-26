@@ -33,7 +33,11 @@ export default defineComponent({
   },
   methods: {
     loadShows() {
-      fetch("https://api.tvmaze.com/shows?genre=Science-Fiction") //genre selection doesnt work
+      // Initial genre selection is not provide by TVmaze
+      // API call returns the first page from 'all shows'
+      // There currently are 208 pages each with 0-250 shows
+      // For the purpose of this demo only the first page is used
+      fetch("https://api.tvmaze.com/shows")
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -82,28 +86,28 @@ export default defineComponent({
 
   <Section>
     <template v-slot:header>
-      <h1>SCIFI: All</h1>
+      <h1>SCIFI: All ({{ allScifi.length }})</h1>
     </template>
     <Carousel :shows="allScifi" unique-id="carousel-all" />
   </Section>
 
   <Section>
     <template v-slot:header>
-      <h1>SCIFI: Action</h1>
+      <h1>SCIFI: Action ({{ actionScifi.length }})</h1>
     </template>
     <Carousel :shows="actionScifi" unique-id="carousel-action" />
   </Section>
 
   <Section>
     <template v-slot:header>
-      <h1>SCIFI: Drama</h1>
+      <h1>SCIFI: Drama ({{ dramaScifi.length }})</h1>
     </template>
     <Carousel :shows="dramaScifi" unique-id="carousel-drama" />
   </Section>
 
   <Section>
     <template v-slot:header>
-      <h1>SCIFI: Comedy</h1>
+      <h1>SCIFI: Comedy ({{ comedyScifi.length }})</h1>
     </template>
     <Carousel :shows="comedyScifi" unique-id="carousel-comedy" />
   </Section>

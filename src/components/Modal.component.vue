@@ -29,7 +29,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="modal-backdrop"></div>
+  <div class="modal-backdrop" v-on:click="closeModal"></div>
   <div class="modal">
     <header>
       <slot name="header" />

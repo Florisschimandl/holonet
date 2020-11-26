@@ -2,7 +2,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Header",
+  name: "Carousel",
   //components: {},
   props: {
     title: {
@@ -57,6 +57,11 @@ export default defineComponent({
           v-bind:src="Object(Object(shows[index]).image).medium"
           v-bind:alt="Object(shows[index]).name"
         />
+        <div class="overlay">
+          <h3>{{ Object(shows[index]).name }}</h3>
+          <p>Rating: {{ Object(Object(shows[index]).rating.average) }}</p>
+          <button>Details &#8594;</button>
+        </div>
       </div>
     </div>
   </div>
@@ -112,27 +117,49 @@ export default defineComponent({
   padding: 0;
   position: relative;
   border: 1px solid grey;
+  position: relative;
 }
 
-.card h2 {
+.card .overlay {
   position: absolute;
   bottom: 0;
-  padding: 0 2.5rem 0.5rem 2.5rem;
+  left: 0;
+  right: 0;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  padding: 2rem 0 2rem 0;
+  display: none;
   z-index: 0;
-  background: rgb(0, 0, 0, 0.8);
   text-align: center;
-  font-size: 18px;
+}
+
+.card .overlay h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+.card .overlay p {
+  margin: 0 0 0.5rem;
+}
+
+.card:hover .overlay,
+.card:focus .overlay {
+  display: block;
+}
+
+.card .overlay button {
+  margin: 0;
+  font-size: 1rem;
+  padding: 0 1.5rem 0.2rem;
+  background: rgb(3, 53, 53);
+  border: 1px solid rgb(38, 104, 104);
 }
 
 img {
   opacity: 0.5;
-  height: 100%;
 }
-img.selected {
-  opacity: 1;
-}
-img:hover,
-img:focus {
+
+.card:hover img,
+.card:focus img {
   opacity: 1;
 }
 

@@ -12,7 +12,11 @@ Because of the above problems the project switched to Vue 3 cli during developme
 
 ## Components
 
-All components where kept simple and compact, pure minimal HTML/CSS, to speed up the short development proces.
+All components where kept simple and compact, pure minimal HTML/CSS, to speed up the short development proces (4 days).
+
+## Demo domain
+
+The Holonet assesment runs on: https://www.holonet.nl 
 
 ## Project setup
 ```

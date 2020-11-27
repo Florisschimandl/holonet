@@ -3,19 +3,19 @@
 ## Considerations
 
 This project started out with both snowpack and Vue 3 (as an experiment).
-Both are still lacking all kinds of support, i ran into the folowing problems: 
-- snowpack vue/typescript template has no test runner and lacks good integration for typescript
-- snowpack suggest to use @web/test-runner, its unclear if it support vue3 and i have no experience with it
-- snowpack used to support jest, but i couldt get it to work properly with ts etc
+Both are still lacking all kinds of support, I ran into the following problems: 
+- snowpack Vue/typescript template has no test runner and lacks good integration for typescript.
+- snowpack suggest to use @web/test-runner, it's unclear if it support Vue3 and I have no experience with it
+- snowpack used to support jest, but I couldnt get it to work properly with typescript etc.
 
 Because of the above problems the project switched to Vue 3 cli during development.
 
 ## Components
 
-All components where kept simple and compact, pure minimal HTML/CSS, to speed up the short development proces (4 days).
+All components where kept simple and compact, pure minimal HTML/CSS, to speed up the short development process (4 days).
 
 Note:
-- Because of time issues the search component is currently a dummy component 
+- Because of time issues the search component is currently a dummy component.
 
 ## Demo domain
 

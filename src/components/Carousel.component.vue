@@ -5,41 +5,40 @@ export default defineComponent({
   name: "Carousel",
   emits: ["showSelected"],
   props: {
-    title: {
-      type: String,
-      default: "Title",
-      required: false,
-    },
     uniqueId: {
       type: String,
-      required: true,
+      default: "unique-id",
+      required: true
     },
     shows: {
       type: Array,
-      default: [],
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       currentItem: 0,
       previousItem: -1,
-      nextItem: 1,
+      nextItem: 1
     };
   },
   methods: {
     scrolLeft() {
       const carousel = document.querySelector("#" + this.uniqueId);
-      carousel.scrollLeft += 300;
+      if (carousel) {
+        carousel.scrollLeft += 300;
+      }
     },
     scrolRight() {
       const carousel = document.querySelector("#" + this.uniqueId);
-      carousel.scrollLeft -= 300;
+      if (carousel) {
+        carousel.scrollLeft -= 300;
+      }
     },
     showDetails(id: number) {
       this.$emit("showSelected", id);
-    },
-  },
+    }
+  }
 });
 </script>
 

@@ -8,9 +8,16 @@ import Section from "./components/Section.component.vue";
 import Carousel from "./components/Carousel.component.vue";
 import Modal from "./components/Modal.component.vue";
 
-// Types
-import SelectedShow from "./types/selectedShow.type.js";
-import TvShow from "./types/tvShow.type.js";
+interface SelectedShow {
+  image: string;
+  name: string;
+  rating: string;
+  genres: string;
+  summary: string;
+  status: string;
+  premiered: string;
+  language: string;
+}
 
 export default defineComponent({
   name: "App",
@@ -18,19 +25,19 @@ export default defineComponent({
     Header,
     Section,
     Carousel,
-    Modal
+    Modal,
   },
   props: {},
   data() {
     return {
       title: "Holonet",
-      allScifi: [] as TvShow[],
-      sortedAllScifi: [] as TvShow[],
-      actionScifi: [] as TvShow[],
-      dramaScifi: [] as TvShow[],
-      comedyScifi: [] as TvShow[],
-      selectedShow: {} as SelectedShow,
-      showModal: false
+      allScifi: [],
+      sortedAllScifi: [],
+      actionScifi: [],
+      dramaScifi: [],
+      comedyScifi: [],
+      selectedShow: [],
+      showModal: false,
     };
   },
   methods: {
@@ -40,14 +47,12 @@ export default defineComponent({
       // There currently are 208 pages each with 0-250 shows
       // For the purpose of this demo only the first page is used
       fetch("https://api.tvmaze.com/shows")
-        .then(response => {
+        .then((response) => {
           if (response.ok) {
             return response.json();
-          } else {
-            throw new Error("Something went wrong");
           }
         })
-        .then(shows => {
+        .then((shows) => {
           // Filter on Scifi shows only
           this.allScifi = this.filterGenre(shows, "Science-Fiction");
 
@@ -58,23 +63,21 @@ export default defineComponent({
           this.actionScifi = this.filterGenre(this.sortedAllScifi, "Action");
           this.dramaScifi = this.filterGenre(this.sortedAllScifi, "Drama");
           this.comedyScifi = this.filterGenre(this.sortedAllScifi, "Comedy");
-        })
-        .catch(error => {
-          console.log(error);
         });
     },
     // Filter on genre
-    filterGenre(shows: Array<TvShow>, genre: string) {
-      return shows.filter(show => show.genres.includes(genre));
+    filterGenre(shows: Array<any>, genre: string) {
+      return shows.filter((show) => show.genres.includes(genre));
     },
     // Sort shows by rating
     // type: ascending | descending
-    sortByRating(shows: Array<TvShow>, type = "descending") {
+    sortByRating(shows: Array<any>, type: string = "descending") {
       const sortedShows = shows.sort((a, b) => {
+        if (type === "descending") {
+          return parseFloat(b.rating.average) - parseFloat(a.rating.average);
+        }
         if (type === "ascending") {
-          return parseInt("" + a.rating.average) - parseInt("" + b.rating.average);
-        } else {
-          return parseFloat("" + b.rating.average) - parseFloat("" + a.rating.average);
+          return parseFloat(a.rating.average) - parseFloat(b.rating.average);
         }
       });
 
@@ -90,17 +93,25 @@ export default defineComponent({
       }
     },
     showSelectedShow(id: number) {
-      let selectedShowData: Array<TvShow> = [];
-      selectedShowData = this.allScifi.filter(show => show.id === id);
+      const selectedShowData = this.allScifi.filter((show) => show.id === id);
 
-      this.selectedShow = selectedShowData[0];
+      this.selectedShow = {
+        image: selectedShowData[0].image.medium,
+        name: selectedShowData[0].name,
+        rating: selectedShowData[0].rating.average,
+        genres: selectedShowData[0].genres,
+        summary: selectedShowData[0].summary,
+        status: selectedShowData[0].status,
+        premiered: selectedShowData[0].premiered,
+        language: selectedShowData[0].language,
+      };
 
       this.toggleModal();
-    }
+    },
   },
   mounted() {
     this.loadShows();
-  }
+  },
 });
 </script>
 
@@ -122,33 +133,21 @@ export default defineComponent({
     <template v-slot:header>
       <h1>SCIFI: Action ({{ actionScifi.length }})</h1>
     </template>
-    <Carousel
-      :shows="actionScifi"
-      unique-id="carousel-action"
-      @show-selected="showSelectedShow($event)"
-    />
+    <Carousel :shows="actionScifi" unique-id="carousel-action" />
   </Section>
 
   <Section>
     <template v-slot:header>
       <h1>SCIFI: Drama ({{ dramaScifi.length }})</h1>
     </template>
-    <Carousel
-      :shows="dramaScifi"
-      unique-id="carousel-drama"
-      @show-selected="showSelectedShow($event)"
-    />
+    <Carousel :shows="dramaScifi" unique-id="carousel-drama" />
   </Section>
 
   <Section>
     <template v-slot:header>
       <h1>SCIFI: Comedy ({{ comedyScifi.length }})</h1>
     </template>
-    <Carousel
-      :shows="comedyScifi"
-      unique-id="carousel-comedy"
-      @show-selected="showSelectedShow($event)"
-    />
+    <Carousel :shows="comedyScifi" unique-id="carousel-comedy" />
   </Section>
 
   <Modal v-if="showModal" @close-modal="toggleModal">
@@ -157,15 +156,12 @@ export default defineComponent({
     </template>
 
     <div class="show">
-      <img
-        v-bind:src="selectedShow.image.medium"
-        v-bind:alt="selectedShow.alt"
-      />
+      <img v-bind:src="selectedShow.image" v-bind:alt="selectedShow.alt" />
 
       <div class="details">
         <h3>Details</h3>
         <ul>
-          <li>Rating: {{ selectedShow.rating.average }}</li>
+          <li>Rating: {{ selectedShow.rating }}</li>
           <li>
             Genres:
             <span

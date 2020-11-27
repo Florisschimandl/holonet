@@ -5,15 +5,15 @@ import Search from "./Search.component.vue";
 export default defineComponent({
   name: "Header",
   components: {
-    Search,
+    Search
   },
   props: {
     title: {
       type: String,
       default: "Title",
-      required: false,
-    },
-  },
+      required: false
+    }
+  }
 });
 </script>
 

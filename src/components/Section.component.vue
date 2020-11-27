@@ -7,19 +7,14 @@ export default defineComponent({
     header: {
       type: Boolean,
       default: true,
-      required: false,
+      required: false
     },
     footer: {
       type: Boolean,
       default: true,
-      required: false,
-    },
-  },
-  // data() {},
-  // computed: {},
-  // watch: {},
-  // methods: {},
-  // mounted() {},
+      required: false
+    }
+  }
 });
 </script>
 

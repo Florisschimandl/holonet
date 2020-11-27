@@ -2,13 +2,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Search",
-  // props: {},
-  // data() {},
-  // computed: {},
-  // watch: {},
-  // methods: {},
-  // mounted() {},
+  name: "Search"
 });
 </script>
 

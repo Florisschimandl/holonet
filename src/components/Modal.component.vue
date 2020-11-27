@@ -8,23 +8,19 @@ export default defineComponent({
     closable: {
       type: Boolean,
       default: true,
-      required: false,
+      required: false
     },
     footer: {
       type: Boolean,
       default: true,
-      required: false,
-    },
+      required: false
+    }
   },
-  // data() {},
-  // computed: {},
-  // watch: {},
   methods: {
     closeModal() {
       this.$emit("closeModal");
-    },
-  },
-  // mounted() {},
+    }
+  }
 });
 </script>
 

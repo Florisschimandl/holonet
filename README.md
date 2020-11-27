@@ -14,6 +14,9 @@ Because of the above problems the project switched to Vue 3 cli during developme
 
 All components where kept simple and compact, pure minimal HTML/CSS, to speed up the short development proces (4 days).
 
+Note:
+- Because of time issues the search component is currently a dummy component 
+
 ## Demo domain
 
 The Holonet assesment runs on: https://www.holonet.nl 

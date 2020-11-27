@@ -9,6 +9,7 @@ Both are still lacking all kinds of support, I ran into the following problems:
 - snowpack used to support jest, but I couldnt get it to work properly with typescript etc.
 
 Because of the above problems the project switched to Vue 3 cli during development.
+This unfortunately lead to minimal unit tests.
 
 ## Components
 
@@ -40,6 +41,8 @@ npm run build
 ```
 npm run test:unit
 ```
+Note: 
+- There are two test for the sole purpose of testing jest is working.
 
 ### Lints and fixes files
 ```

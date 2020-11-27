@@ -2,21 +2,42 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "web-test-runner test/**/*.test.js --node-resolve",
-    "test:coverage": "web-test-runner test/**/*.test.js --node-resolve --coverage",
-    "test:watch": "web-test-runner test/**/*.test.js --node-resolve --watch",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "test": "jest --coverage",
+    "test:watch": "npm test -- --watch"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.vue$": "vue-jest"
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/components/*.{js,vue}",
+      "!**/node_modules/**"
+    ],
+    "coverageReporters": [
+      "html",
+      "text-summary"
+    ]
   },
   "dependencies": {
-    "firebase": "^8.0.2",
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@esm-bundle/chai": "^4.1.5",
     "@snowpack/plugin-dotenv": "^2.0.4",
     "@snowpack/plugin-vue": "^2.2.5",
-    "@web/test-runner": "^0.9.13",
+    "@types/mocha": "^8.0.4",
+    "@vue/test-utils": "^2.0.0-beta.10",
+    "jest": "^24.0.0",
     "snowpack": "^2.17.1",
-    "typescript": "^4.0.2"
+    "typescript": "^4.1.2",
+    "vue-jest": "^5.0.0-alpha.6"
   },
-  "name": "snowpack-project"
+  "name": "holonet"
 }

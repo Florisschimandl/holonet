@@ -14,11 +14,6 @@ export default defineComponent({
       required: false,
     },
   },
-  // data() {},
-  // computed: {},
-  // watch: {},
-  // methods: {},
-  // mounted() {},
 });
 </script>
 

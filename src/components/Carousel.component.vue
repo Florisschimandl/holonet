@@ -3,7 +3,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Carousel",
-  //components: {},
   emits: ["showSelected"],
   props: {
     title: {
@@ -28,8 +27,6 @@ export default defineComponent({
       nextItem: 1,
     };
   },
-  // computed: {},
-  // watch: {},
   methods: {
     scrolLeft() {
       const carousel = document.querySelector("#" + this.uniqueId);
@@ -43,7 +40,6 @@ export default defineComponent({
       this.$emit("showSelected", id);
     },
   },
-  //  mounted() { },
 });
 </script>
 
@@ -87,7 +83,7 @@ export default defineComponent({
   scrollbar-color: #000 transparent;
 }
 
-/* firefox */
+/* TODO: firefox still looks different*/
 .container {
   scrollbar-width: thin;
   scrollbar-color: grey transparent;
